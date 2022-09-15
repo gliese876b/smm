@@ -25,7 +25,6 @@ cfg_dirs=`for i in $cfg_files
                 dirname $i
             done | uniq`
 
-source $rlpath/rl_env/bin/activate
 start_time=`date`
 for i in $cfg_dirs
 do
@@ -34,10 +33,9 @@ do
     echo "Changed path to" `pwd`
     for j in `ls *.cfg`
     do
-        python $rlpath/src/rl.py `pwd`/$j >>`pwd`/$j.out 2>&1
+        python3 $rlpath/src/rl.py `pwd`/$j >>`pwd`/$j.out 2>&1
     done
     echo "Exiting path" `pwd`
 done
 wait
-deactivate
 echo "Start Time = $start_time, End Time = `date`"
