@@ -279,6 +279,45 @@ class SarsaLambdaSMMwIMAgent(SarsaLambdaAgent):
             li_memory = li_memory[1:]
             if self.in_memory_capacity > 0:
                 li_memory.append(tu_event)
+        elif self.li_memory_actions[memory_action_index] == 'Add':
+            if self.in_memory_capacity > 0:
+                """If the memory is full, remove the event with lowest novelty"""
+                if len(li_memory) >= self.in_memory_capacity:
+                    min_ = 100 # dummy value
+                    min_index = None
+                    for i in range(0, len(li_memory)):
+                        tu_e = li_memory[i]
+                        v = pow(1.0 - self._get_probability(tu_e), self.di_count_in_memory[tu_e]) # decaying freq
+                        if v < min_: # on ties, the oldest is selected
+                            min_ = v
+                            min_index = i
+
+                    if min_index is not None:
+                        del li_memory[min_index]
+
+                li_memory.append(tu_event)
+            elif self.in_memory_capacity == -1: # ignore the capacity
+                li_memory.append(tu_event)
+        elif self.li_memory_actions[memory_action_index] == 'Insert':
+            if self.in_memory_capacity > 0:
+                """If the memory is full, remove the event with highest freq"""
+                if len(li_memory) >= self.in_memory_capacity:
+                    max_ = 0 # dummy value
+                    max_index = None
+                    for i in range(0, len(li_memory)):
+                        tu_e = li_memory[i]
+                        v = self._get_probability(tu_e) # decaying freq
+                        if v > max_: # on ties, the oldest is selected
+                            max_ = v
+                            max_index = i
+
+                    if max_index is not None:
+                        del li_memory[max_index]
+
+                li_memory.append(tu_event)
+            elif self.in_memory_capacity == -1: # ignore the capacity
+                li_memory.append(tu_event)
+
         return li_memory
 
     def _dump_history_info(self):
