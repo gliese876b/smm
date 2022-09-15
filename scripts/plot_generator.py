@@ -22,9 +22,9 @@ import subprocess
 plt.rcParams.update({
     "text.usetex": True,
     "font.family": "sans-serif",
-    "font.sans-serif": ["Helvetica"]})
-
-
+    "font.sans-serif": ["Helvetica"],
+    "text.latex.preamble": [r'\usepackage{dutchcal}', r'\usepackage{amssymb}']}
+    )
 '''
 Error bound modes:
 - 0 : 5th and 95th percentile
