@@ -35,7 +35,7 @@ class MeuleauMazeEnv(MultiAgentEnv):
         a list of initial states kept as tuples
     li_goal_states : list
         a list of goal states kept as tuples
-    cl_action_space : spaces.Discrete
+    action_space : spaces.Discrete
         the action space for the actions; east and west
     di_current_states : dict
         a dictionary to keep the current states of each agent
@@ -44,7 +44,7 @@ class MeuleauMazeEnv(MultiAgentEnv):
     """
 
     metadata = {'render.modes': ['human']}
-    
+
     grid_size = (23, 14)
     grid = ["XXXXXXXXXXXXXXXXXXXXXXX",
             "X_____________________X",
@@ -66,17 +66,17 @@ class MeuleauMazeEnv(MultiAgentEnv):
         self.fl_invalid_action_reward = -0.01
         self.fl_default_reward = -0.01
         self.fl_goal_state_reward = 5.0
-        
+
         self.fl_intended_direction_prob = 0.85
 
         """Initial states"""
-        self.li_initial_states = [(11, 12)] 
+        self.li_initial_states = [(11, 12)]
 
         """Goal states"""
         self.li_goal_states = [(11, 6)]
 
         """Actions: n e s w"""
-        self.cl_action_space = spaces.Discrete(4)
+        self.action_space = spaces.Discrete(4)
 
         self._initialize_observation_space()
 
@@ -192,24 +192,24 @@ class MeuleauMazeEnv(MultiAgentEnv):
         high = np.zeros(2, dtype=int)
         high[0] = self.grid_size[0] - 1
         high[1] = self.grid_size[1] - 1
-        self.cl_observation_space = spaces.Box(low, high, dtype=np.int32)
+        self.observation_space = spaces.Box(low, high, dtype=np.int32)
 
     def get_observation_space_size(self):
-        return self.cl_observation_space.shape[0]
+        return self.observation_space.shape[0]
 
     def get_action_space_size(self):
-        return self.cl_action_space.n
+        return self.action_space.n
 
     def _render(self, mode='human', close=False):
         pass
-        
+
     def _get_observations_dict(self):
         obs_dict = {}
         for agent_name in self.li_agent_names:
             obs_dict[agent_name] = np.asarray(self.di_current_states[agent_name])
         return obs_dict
-        
-        
+
+
 class MeuleauMazeEnvV1(MeuleauMazeEnv):
     """
     A class to simulate a partially observable version
@@ -220,13 +220,13 @@ class MeuleauMazeEnvV1(MeuleauMazeEnv):
 
     def __init__(self):
         super(MeuleauMazeEnvV1, self).__init__()
-        
+
     def _initialize_observation_space(self):
         """Partial observability: (wall_north, wall_east, wall_south, wall_west)"""
         low = np.zeros(4, dtype=int)
         high = np.full(4, 2.0, dtype=int)
-        self.cl_observation_space = spaces.Box(low, high, dtype=np.int32)      
-        
+        self.observation_space = spaces.Box(low, high, dtype=np.int32)
+
     def _get_one_agent_observation(self, state):
         observation = np.zeros(4, dtype=int)
         if tuple(state) in self.li_goal_states:
@@ -241,7 +241,7 @@ class MeuleauMazeEnvV1(MeuleauMazeEnv):
                 observation[2] = 1
             if state[0] == 0 or self.grid[state[1]][state[0]-1] == 'X':  # west direction
                 observation[3] = 1
-            
+
         return observation
 
     def _get_observations_dict(self):
@@ -270,15 +270,15 @@ class MeuleauMazeEnvV2(MeuleauMazeEnvV1):
             "X_X_________X_X",
             "X_XXXXXXXXXXX_X",
             "X_____________X",
-            "XXXXXXXXXXXXXXX"]     
+            "XXXXXXXXXXXXXXX"]
 
     def __init__(self):
         super(MeuleauMazeEnvV2, self).__init__()
-        
+
         """Initial states"""
-        self.li_initial_states = [(7, 8)] 
+        self.li_initial_states = [(7, 8)]
 
         """Goal states"""
         self.li_goal_states = [(7, 4)]
-        
+
         self.fl_intended_direction_prob = 0.85

@@ -18,7 +18,7 @@ class CookieEnv(MultiAgentEnv):
     """
 
     metadata = {'render.modes': ['human']}
-    
+
     grid_size = (15, 17)
     grid = ["XXXXXXXXXXXXXXX",
             "X___XXXXXXXXXXX",
@@ -57,7 +57,7 @@ class CookieEnv(MultiAgentEnv):
         self.tu_initial_state = (2, 8, 0)
 
         # Actions: n e s w
-        self.cl_action_space = spaces.Discrete(4)
+        self.action_space = spaces.Discrete(4)
 
         self._initialize_observation_space()
 
@@ -89,7 +89,7 @@ class CookieEnv(MultiAgentEnv):
         return None
 
     def _one_agent_step(self, state, action):
-        assert self.cl_action_space.contains(action)
+        assert self.action_space.contains(action)
 
         x, y, c = tuple(state)
 
@@ -160,13 +160,13 @@ class CookieEnv(MultiAgentEnv):
         high[0] = self.grid_size[0] - 1
         high[1] = self.grid_size[1] - 1
         high[2] = max(self.di_cookie_locations.keys())
-        self.cl_observation_space = spaces.Box(low, high, dtype=np.int32)
+        self.observation_space = spaces.Box(low, high, dtype=np.int32)
 
     def get_observation_space_size(self):
-        return self.cl_observation_space.shape[0]
+        return self.observation_space.shape[0]
 
     def get_action_space_size(self):
-        return self.cl_action_space.n
+        return self.action_space.n
 
     def _render(self, mode='human', close=False):
         pass
@@ -190,7 +190,7 @@ class CookieEnvV1(CookieEnv):
         high[0] = self.grid_size[0] - 1
         high[1] = self.grid_size[1] - 1
         high[2] = 1
-        self.cl_observation_space = spaces.Box(low, high, dtype=np.int32)
+        self.observation_space = spaces.Box(low, high, dtype=np.int32)
 
     def _get_one_agent_observation(self, state):
         x, y, c = state
@@ -227,7 +227,7 @@ class CookieEnvV2(CookieEnv):
         high[3] = 1 # 1 for ending in a state with the button and pressing it
         high[4] = 1 # 1 for ending in a state with the same room as the existing cookie
         high[5] = 1 # 1 for ending in the location with the existing cookie and eating it
-        self.cl_observation_space = spaces.Box(low, high, dtype=np.int32)
+        self.observation_space = spaces.Box(low, high, dtype=np.int32)
 
     def _get_one_agent_observation(self, previous_state, state):
         x, y, c = state
@@ -278,7 +278,7 @@ class CookieEnvV3(CookieEnv):
         self.in_window_size = 3
         low = np.zeros(self.in_window_size * self.in_window_size, dtype=int)
         high = np.full(self.in_window_size * self.in_window_size, 3, dtype=int)
-        self.cl_observation_space = spaces.Box(low, high, dtype=np.int32)
+        self.observation_space = spaces.Box(low, high, dtype=np.int32)
 
     def _get_one_agent_observation(self, state):
         x, y, c = state

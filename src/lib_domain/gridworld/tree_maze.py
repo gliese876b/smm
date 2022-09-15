@@ -57,7 +57,7 @@ class TreeMazeEnvV1(MultiAgentEnv):
         self.size = size
         self.height = height
 
-        self.cl_action_space = spaces.Discrete(3) # Up, Right, Down
+        self.action_space = spaces.Discrete(3) # Up, Right, Down
         self._initialize_observation_space()
         self._seed()
 
@@ -75,14 +75,14 @@ class TreeMazeEnvV1(MultiAgentEnv):
         high[0] = 1
         high[1] = self.size - 1
         high[2] = self.height
-        self.cl_observation_space = spaces.Box(low, high, dtype=np.int32)
+        self.observation_space = spaces.Box(low, high, dtype=np.int32)
 
     def _seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
 
     def _one_agent_step(self, state, action):
-        assert self.cl_action_space.contains(action)
+        assert self.action_space.contains(action)
 
         _before_branch, _done, _goal, _timestep = state
         _done = list(_done)
@@ -173,10 +173,10 @@ class TreeMazeEnvV1(MultiAgentEnv):
         return obs_dict
 
     def get_observation_space_size(self):
-        return self.cl_observation_space.shape[0]
+        return self.observation_space.shape[0]
 
     def get_action_space_size(self):
-        return self.cl_action_space.n
+        return self.action_space.n
 
 
 class TreeMazeEnvV2(TreeMazeEnvV1):
@@ -215,4 +215,3 @@ class TreeMazeEnvV3(TreeMazeEnvV2):
 
     def __init__(self, size=5, height=4):
         super(TreeMazeEnvV3, self).__init__(size, height)
-

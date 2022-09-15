@@ -31,7 +31,7 @@ class LoadUnloadEnv(MultiAgentEnv):
         the probability of achieving the intended action
     li_initial_states : list
         a list of initial states kept as tuples
-    cl_action_space : spaces.Discrete
+    action_space : spaces.Discrete
         the action space for the actions; east and west
     di_current_states : dict
         a dictionary to keep the current states of each agent
@@ -57,7 +57,7 @@ class LoadUnloadEnv(MultiAgentEnv):
         self.li_initial_states = [(0, 0)]
 
         """Actions: e w"""
-        self.cl_action_space = spaces.Discrete(2)
+        self.action_space = spaces.Discrete(2)
 
         self._initialize_observation_space()
 
@@ -177,13 +177,13 @@ class LoadUnloadEnv(MultiAgentEnv):
         high = np.zeros(2, dtype=int)
         high[0] = self.grid_size[0] - 1
         high[1] = 1
-        self.cl_observation_space = spaces.Box(low, high, dtype=np.int32)
+        self.observation_space = spaces.Box(low, high, dtype=np.int32)
 
     def get_observation_space_size(self):
-        return self.cl_observation_space.shape[0]
+        return self.observation_space.shape[0]
 
     def get_action_space_size(self):
-        return self.cl_action_space.n
+        return self.action_space.n
 
     def _render(self, mode='human', close=False):
         pass
@@ -219,7 +219,7 @@ class LoadUnloadEnvV1(LoadUnloadEnv):
         """Partial observability: (wall_north, wall_east, wall_south, wall_west)"""
         low = np.zeros(4, dtype=int)
         high = np.full(4, 2.0, dtype=int)
-        self.cl_observation_space = spaces.Box(low, high, dtype=np.int32)
+        self.observation_space = spaces.Box(low, high, dtype=np.int32)
 
     def _get_one_agent_observation(self, state):
         observation = np.zeros(4, dtype=int)

@@ -28,7 +28,7 @@ class BasicSchedulerEnv(MultiAgentEnv):
         # Actions
         # - make CPU idle (0)
         # - or assign a process to the CPU (assign p1, p2, ...)
-        self.cl_action_space = spaces.Discrete(1 + self.in_number_of_processes)
+        self.action_space = spaces.Discrete(1 + self.in_number_of_processes)
 
         self.di_current_states = {}
         self.di_dones = {}
@@ -41,10 +41,10 @@ class BasicSchedulerEnv(MultiAgentEnv):
         low = np.zeros(1 + self.in_number_of_processes, dtype=int)
         high = np.full(1 + self.in_number_of_processes, self.in_max_cpu_time, dtype=int)
         high[0] = self.in_number_of_processes
-        self.cl_observation_space = spaces.Box(low, high, dtype=np.int32)
+        self.observation_space = spaces.Box(low, high, dtype=np.int32)
 
     def _one_agent_step(self, state, action):
-        assert self.cl_action_space.contains(action)
+        assert self.action_space.contains(action)
 
         next_state = np.copy(state)
         reward = self.fl_default_reward
@@ -118,10 +118,10 @@ class BasicSchedulerEnv(MultiAgentEnv):
         return obs_dict
 
     def get_observation_space_size(self):
-        return self.cl_observation_space.shape[0]
+        return self.observation_space.shape[0]
 
     def get_action_space_size(self):
-        return self.cl_action_space.n
+        return self.action_space.n
 
 class BasicSchedulerEnvV1(BasicSchedulerEnv):
     metadata = {'render.modes': ['human']}
@@ -133,7 +133,7 @@ class BasicSchedulerEnvV1(BasicSchedulerEnv):
         # Partial observability: show states (active or dead) of all processes if CPU is idle
         low = np.full(self.in_number_of_processes, 0, dtype=int)
         high = np.full(self.in_number_of_processes, 2, dtype=int)
-        self.cl_observation_space = spaces.Box(low, high, dtype=np.int32)
+        self.observation_space = spaces.Box(low, high, dtype=np.int32)
 
     def _get_one_agent_observation(self, state):
         observation = np.full(self.in_number_of_processes, 1, dtype=int) # null info
