@@ -302,11 +302,11 @@ class SarsaLambdaSMMwIMAgent(SarsaLambdaAgent):
             if self.in_memory_capacity > 0:
                 """If the memory is full, remove the event with highest freq"""
                 if len(li_memory) >= self.in_memory_capacity:
-                    max_ = 0 # dummy value
+                    max_ = -1 # dummy value
                     max_index = None
                     for i in range(0, len(li_memory)):
                         tu_e = li_memory[i]
-                        v = self._get_probability(tu_e) # decaying freq
+                        v = self._get_probability(tu_e)
                         if v > max_: # on ties, the oldest is selected
                             max_ = v
                             max_index = i
@@ -317,7 +317,25 @@ class SarsaLambdaSMMwIMAgent(SarsaLambdaAgent):
                 li_memory.append(tu_event)
             elif self.in_memory_capacity == -1: # ignore the capacity
                 li_memory.append(tu_event)
+        elif self.li_memory_actions[memory_action_index] == 'Enqueue':
+            if self.in_memory_capacity > 0:
+                """If the memory is full, remove the event with highest memory count"""
+                if len(li_memory) >= self.in_memory_capacity:
+                    max_ = -1 # dummy value
+                    max_index = None
+                    for i in range(0, len(li_memory)):
+                        tu_e = li_memory[i]
+                        v = self.di_count_in_memory[tu_e]
+                        if v > max_: # on ties, the oldest is selected
+                            max_ = v
+                            max_index = i
 
+                    if max_index is not None:
+                        del li_memory[max_index]
+
+                li_memory.append(tu_event)
+            elif self.in_memory_capacity == -1: # ignore the capacity
+                li_memory.append(tu_event)
         return li_memory
 
     def _dump_history_info(self):
