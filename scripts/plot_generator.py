@@ -401,9 +401,9 @@ if ( len(sys.argv) == 5 ):
         ax.set(xlabel='Number of Episodes', ylabel=header_string)
 
         fontP = FontProperties()
-        fontP.set_size(24)
+        fontP.set_size(32)
 
-        ax.legend(bbox_to_anchor=(0.5, 1.0), loc="lower center", ncol=3, prop=fontP)
+        ax.legend(bbox_to_anchor=(0.5, 1.0), loc="lower center", ncol=4, prop=fontP)
         #ax.legend(loc="best", ncol=2, columnspacing=1.0)
         ax.grid(axis='y', color='lightgray', linestyle='dotted', linewidth=1)
         pdf_file_name = main_folder_path + "/" + "results-" + problem_name + "-" + agent_type + "-" + str(number_of_experiments) + "x" + str(number_of_episodes) + "-" + header + "-[" + str(int(y_min)) + "-" + str(int(y_max)) + "].pdf"
