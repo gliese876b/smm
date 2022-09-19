@@ -402,6 +402,7 @@ if ( len(sys.argv) == 5 ):
 
         ax.legend(bbox_to_anchor=(0.5, 1.0), loc="lower center", ncol=4, columnspacing=0.8, handletextpad=0.3, prop=fontP)
         #ax.legend(loc="best", ncol=2, columnspacing=0.6, prop=fontP)
+
         ax.grid(axis='y', color='lightgray', linestyle='dotted', linewidth=1)
         pdf_file_name = main_folder_path + "/" + "results-" + problem_name + "-" + agent_type + "-" + str(number_of_experiments) + "x" + str(number_of_episodes) + "-" + header + "-[" + str(int(y_min)) + "-" + str(int(y_max)) + "].pdf"
         fig.savefig(pdf_file_name, format="pdf")
