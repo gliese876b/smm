@@ -31,7 +31,7 @@ Error bound modes:
 - 1 : Standard deviation
 - 2 : 95% Bootstrap confidence interval
 '''
-error_bound_mode = -1
+error_bound_mode = 2
 '''
 Significance test between the baseline and the new method:
 - 0 : Off
@@ -304,19 +304,15 @@ if ( len(sys.argv) == 5 ):
     result_files = {}
     exp_details = {}
 
-    for folder in os.listdir(main_folder_path):
-        if not os.path.isdir(main_folder_path + "/" + folder):
-            continue
-        folder_path = main_folder_path + "/" + folder + "/"
-        for file_ in os.listdir(folder_path):
-            file_name, file_extension = os.path.splitext(file_)
-            file_extension = file_extension[1:]
-            if file_extension in ["rlout", "rloutSingle"]:
-                experiment_name, experiment_no = strip_experiment_name(file_name, file_extension)
-                if ( experiment_name not in result_files ):
-                    result_files[experiment_name] = {}
+    for file_ in os.listdir(main_folder_path):
+        file_name, file_extension = os.path.splitext(file_)
+        file_extension = file_extension[1:]
+        if file_extension in ["rlout", "rloutSingle"]:
+            experiment_name, experiment_no = strip_experiment_name(file_name, file_extension)
+            if ( experiment_name not in result_files ):
+                result_files[experiment_name] = {}
 
-                result_files[experiment_name][experiment_no] = folder_path + file_
+            result_files[experiment_name][experiment_no] = main_folder_path + file_
 
     if ( len(result_files) == 0 ):
         print("ERROR: No result file to plot")
@@ -361,7 +357,7 @@ if ( len(sys.argv) == 5 ):
             if ( header in exp_details[exp_name][0] ):
                 experiments_with_header += [exp_name]
 
-        mpl.rcParams.update({'font.size': 32})
+        mpl.rcParams.update({'font.size': 36})
         plt.rc('lines', linewidth=4)
         """List of colors and line styles for each line"""
         # number of memory changes plots
@@ -377,6 +373,7 @@ if ( len(sys.argv) == 5 ):
         ax = fig.add_subplot(111)
         ylim = {}
         ordered_exps = sorted(experiments_with_header)
+        ordered_exps = ['basic_scheduler-v1_Sarsa(0.9)-_o_x1-SMM-1', 'basic_scheduler-v1_Sarsa(0.9)-_o_x1-SMM-b1.0-im1-t0-1', 'basic_scheduler-v1_Sarsa(0.9)-_o_x1-SMM-b1.0-im4-t0-1', 'basic_scheduler-v1_Sarsa(0.9)-_o_x1-SMM-b1.0-im3-t0-1']
         print("plotting in the following order:", ordered_exps)
         for exp_name in ordered_exps:
             print("--- Plotting %s file ---" % exp_name)
@@ -401,10 +398,10 @@ if ( len(sys.argv) == 5 ):
         ax.set(xlabel='Number of Episodes', ylabel=header_string)
 
         fontP = FontProperties()
-        fontP.set_size(24)
+        fontP.set_size(44)
 
-        ax.legend(bbox_to_anchor=(0.5, 1.0), loc="lower center", ncol=3, prop=fontP)
-        #ax.legend(loc="best", ncol=2, columnspacing=1.0)
+        ax.legend(bbox_to_anchor=(0.5, 1.0), loc="lower center", ncol=4, columnspacing=0.8, handletextpad=0.3, prop=fontP)
+        #ax.legend(loc="best", ncol=2, columnspacing=0.6, prop=fontP)
         ax.grid(axis='y', color='lightgray', linestyle='dotted', linewidth=1)
         pdf_file_name = main_folder_path + "/" + "results-" + problem_name + "-" + agent_type + "-" + str(number_of_experiments) + "x" + str(number_of_episodes) + "-" + header + "-[" + str(int(y_min)) + "-" + str(int(y_max)) + "].pdf"
         fig.savefig(pdf_file_name, format="pdf")
