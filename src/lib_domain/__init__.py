@@ -20,7 +20,10 @@ li_custom_domains = [
                      'meuleau_maze-v1',
                      'meuleau_maze-v2',
                      'basic_scheduler-v0',
-                     'basic_scheduler-v1'
+                     'basic_scheduler-v1',
+                     'toh_d3_r3-v0',
+                     'toh_d3_r3-v1',
+                     'toh_d3_r3-v2'
                      ]
 
 register(
@@ -96,4 +99,19 @@ register(
 register(
     id='basic_scheduler-v1',
     entry_point='lib_domain.scheduler:BasicSchedulerEnvV1',
+)
+
+register(
+    id='toh_d3_r3-v0',
+    entry_point='lib_domain.tower_of_hanoi:ToHd3r3Env',
+)
+
+register(
+    id='toh_d3_r3-v1',
+    entry_point='lib_domain.tower_of_hanoi:ToHd3r3EnvV1',
+)
+
+register(
+    id='toh_d3_r3-v2',
+    entry_point='lib_domain.tower_of_hanoi:ToHd3r3EnvV2',
 )

@@ -277,7 +277,7 @@ class SarsaLambdaSMMwIMAgent(SarsaLambdaAgent):
             li_memory = li_memory[1:]
         elif self.li_memory_actions[memory_action_index] == 'Pop+Push':
             li_memory = li_memory[1:]
-            if self.in_memory_capacity > 0:
+            if self.in_memory_capacity > 0 or self.in_memory_capacity == -1:
                 li_memory.append(tu_event)
         elif self.li_memory_actions[memory_action_index] == 'Add':
             if self.in_memory_capacity > 0:
