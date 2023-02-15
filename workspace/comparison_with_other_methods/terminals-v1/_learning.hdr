@@ -1,0 +1,6 @@
+[learning]
+alpha = 0.01
+gamma = 0.9
+action_selection_strategy = egreedy
+epsilon_start = 0.2
+epsilon_end = 0.001

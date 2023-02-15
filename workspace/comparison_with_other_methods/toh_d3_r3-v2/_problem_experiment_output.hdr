@@ -1,0 +1,15 @@
+[problem]
+domain_name = toh_d3_r3-v2
+episode_end_by_sink_rewards = false
+sink_rewards = 1.0
+episode_end_by_step_limit = true
+step_limit = 500
+
+[experiment]
+number_of_experiments = 50
+number_of_episodes = 200000
+
+[debug]
+active = true
+experiments = all
+episodes = last
