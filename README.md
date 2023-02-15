@@ -4,10 +4,8 @@ This is a simplied version of a RL framework we have developed. It provides a si
 is simulated as a Gym environment and the agent interacts with it. The framework allows to have multiple experiments
 with multiple agents but this version is intended for single agent only.
 
+All experiment related parameters are saved in a cfg file. A directory containing cfg files is given to a bash script which traverses the directory and runs the corresponding experiment. The episodic logs (number of steps to complete an episode, total reward collected throughout the episode) are saved into a rloutSingle file.
 
-All experiment related parameters are saved in a cfg file. A directory containing cfg files is given to
-a bash script which traverses the directory and runs the corresponding experiment. The episodic logs (number of steps
-to complete an episode, total reward collected throughout the episode) are saved into a rloutSingle file.
 -------------------------------------------------------------------------------------------------------------------------------
 ## DEPENDENCIES
 
@@ -21,6 +19,7 @@ in a virtual environment created with name rl_env under the main folder of the p
     - [sklearn]
     - [matplotlib] (for plotting)
     - [progressbar] (for plotting)
+    
 -------------------------------------------------------------------------------------------------------------------------------
 ## EXPERIMENT FOLDER ORGANIZATION
 
@@ -31,6 +30,7 @@ and cfg files.
 the number of episodes each experiment will take etc.
 - _learning.hdr contains some common learning parameters.
 - Each cfg file represents a method's experiment and contains method specific parameters.
+
 -------------------------------------------------------------------------------------------------------------------------------
 ## RUNNING AN EXPERIMENT
 
@@ -45,6 +45,7 @@ To run an experiment whose configuration is stored in a cfg file;
   This script will visit every cfg file under the folder, run the experiments using multiple
   processes and store the results in a rloutSingle file where each episodic log is written
   row by row. Also, it dumps additional logs into the corresponding debug folder.
+ 
 -------------------------------------------------------------------------------------------------------------------------------
 ## PLOTTING RESULTS
 
@@ -56,4 +57,5 @@ and maximum values for the Y axis. For example;
 
 command will read the header values in all rloutSingle files under the directory, take averages and
 confidence intervals by each episode and plot it to a pdf file.
+
 -------------------------------------------------------------------------------------------------------------------------------
