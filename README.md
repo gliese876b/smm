@@ -1,6 +1,8 @@
-# RL FRAMEWORK FOR MULTIAGENT AND FACTORED PROBLEM SETTING
+# RL FRAMEWORK
 
-This is a simplied version of a RL framework we have developed. It provides a simulation framework that an environment
+This is a simplied version of a RL framework we have used in the article "Learning what to memorize: Using intrinsic motivation to form useful memory in partially observable reinforcement learning". Here is a [link to the article](https://link.springer.com/article/10.1007/s10489-022-04328-z).
+
+It provides a simulation framework that an environment
 is simulated as a Gym environment and the agent interacts with it. The framework allows to have multiple experiments
 with multiple agents but this version is intended for single agent only.
 
